@@ -62,10 +62,7 @@ public class GameMouseListener implements MouseListener {
 			whiteHasLegalMovesLeft = board.hasLegalMovesLeft();
 						
 			if(whiteHasLegalMovesLeft) {
-				
-//				Scanner scanner = new Scanner(System.in);
-//				scanner.next();
-//				scanner.close();
+
 				moveWhite();
 				
 				
@@ -92,11 +89,11 @@ public class GameMouseListener implements MouseListener {
 			
 			blackTurn = !blackTurn;
 		}else {
-			//if black has moves left
+			//if white has moves left
 			whiteAlive = board.hasLegalMovesLeft();
 			
 			blackTurn = !blackTurn;
-			//if white has moves left
+			//if black has moves left
 			blackAlive = board.hasLegalMovesLeft();
 			
 			blackTurn = !blackTurn;
@@ -151,8 +148,9 @@ public class GameMouseListener implements MouseListener {
 		
 		blackHasLegalMovesLeft = board.hasLegalMovesLeft();
 		
-		if(!blackHasLegalMovesLeft) {
+		if(!blackHasLegalMovesLeft && !gameOver) {
 			blackTurn = !blackTurn;
+			moveWhite();
 		}
 		
 	}

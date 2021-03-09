@@ -59,7 +59,12 @@ public class Board extends JPanel{
 		g2.setColor(Color.RED);
 		
 		if(GameMouseListener.gameOver) {
-			g2.drawString("Game Over! " + GameMouseListener.winner + " won!", 325, 850);
+			if(GameMouseListener.winner.equals("Tie!")) {
+				g2.drawString("Game Over! " + GameMouseListener.winner, 325, 850);
+
+			}else {
+				g2.drawString("Game Over! " + GameMouseListener.winner + " won!", 325, 850);
+			}
 		}
 		
 		//Invalid Move?
@@ -69,13 +74,6 @@ public class Board extends JPanel{
 		
 		g2.setColor(Color.BLACK);
 		
-		//Displaying the current turn
-//		if(GameMouseListener.blackTurn) {
-//			g2.drawString("Black's Turn!", 325, 850);
-//			
-//		}else {
-//			g2.drawString("White's Turn!", 325, 850);
-//		}
 			
 		//Drawing the grid
 	
@@ -143,8 +141,10 @@ public class Board extends JPanel{
 		
 		if(blackCounter > whiteCounter) {
 			return "Black";
-		}else {
+		}else if (whiteCounter > blackCounter) {
 			return "White";
+		}else {
+			return "Tie!";
 		}
 	}
 	
@@ -159,35 +159,27 @@ public class Board extends JPanel{
 				if(sq.contains(x,y)) {
 					
 					//Check top
-					//System.out.println("checkTop: " + checkTop(i,j));
 					conditions.add(checkTop(i,j));
 					
 					//Check bottom
-					//System.out.println("checkBottom: " + checkBottom(i,j));
 					conditions.add(checkBottom(i,j));
 					
 					//Check left
-					//System.out.println("checkLeft: " + checkLeft(i,j));
 					conditions.add(checkLeft(i,j));
 					
 					//Check right 
-					//System.out.println("checkRight: " + checkRight(i,j));
 					conditions.add(checkRight(i,j));
 					
 					//Check top-left diagonal
-					//System.out.println("checkTopLeftDiagonal: " + checkTopLeftDiagonal(i,j));
 					conditions.add(checkTopLeftDiagonal(i,j));
 					
 					//Check top-right diagonal FIXED
-					//System.out.println("checkTopRightDiagonal: " + checkTopRightDiagonal(i,j));
 					conditions.add(checkTopRightDiagonal(i,j));
 					
 					//Check bottom-left diagonal FIXED
-					//System.out.println("checkBottomLeftDiagonal: " + checkBottomLeftDiagonal(i,j));
 					conditions.add(checkBottomLeftDiagonal(i,j));
 					
 					//Check bottom-right diagonal FIXED
-					//System.out.println("checkBottomRightDiagonal: " + checkBottomRightDiagonal(i,j));
 					conditions.add(checkBottomRightDiagonal(i,j));
 				}
 			}
@@ -256,7 +248,6 @@ public class Board extends JPanel{
 	
 	public boolean checkTop(int i, int j) {
 		
-		Square sq = squares[i][j];
 		String currentColor;
 		
 		if(GameMouseListener.blackTurn) {
@@ -270,7 +261,7 @@ public class Board extends JPanel{
 			 
 		 }
 		 //Checking that the current position is blank, and the position one space above is not the current color or a blank space
-		 else if(sq.circleColor.equals("") && !squares[i-1][j].circleColor.equals(currentColor) && !squares[i-1][j].circleColor.equals("")){
+		 else if(squares[i][j].circleColor.equals("") && !squares[i-1][j].circleColor.equals(currentColor) && !squares[i-1][j].circleColor.equals("")){
 			 
 			 for(int i2=i-1; i2>=0; i2--) {
 				 
@@ -287,7 +278,6 @@ public class Board extends JPanel{
 	}
 	public boolean checkBottom(int i, int j) {
 			
-			Square sq = squares[i][j];
 			String currentColor;
 			
 			if(GameMouseListener.blackTurn) {
@@ -300,8 +290,8 @@ public class Board extends JPanel{
 				 return false;
 				 
 			 }
-			 //Checking that the current position is blank, and the position one space belong is not the current color or a blank space
-			 else if(sq.circleColor.equals("") && !squares[i+1][j].circleColor.equals(currentColor) && !squares[i+1][j].circleColor.equals("")){
+
+			 else if(squares[i][j].circleColor.equals("") && !squares[i+1][j].circleColor.equals(currentColor) && !squares[i+1][j].circleColor.equals("")){
 				 
 				 for(int i2=i+1; i2<=7; i2++) {
 					if(squares[i2][j].circleColor.equals("")) {
@@ -317,7 +307,6 @@ public class Board extends JPanel{
 		}
 	public boolean checkRight(int i, int j) {
 		
-		Square sq = squares[i][j];
 		String currentColor;
 		
 		if(GameMouseListener.blackTurn) {
@@ -330,8 +319,8 @@ public class Board extends JPanel{
 			 return false;
 			 
 		 }
-		 //Checking that the current position is blank, and the position one space belong is not the current color or a blank space
-		 else if(sq.circleColor.equals("") && !squares[i][j+1].circleColor.equals(currentColor) && !squares[i][j+1].circleColor.equals("")){
+
+		 else if(squares[i][j].circleColor.equals("") && !squares[i][j+1].circleColor.equals(currentColor) && !squares[i][j+1].circleColor.equals("")){
 			 
 			 for(int j2=j+1; j2<=7; j2++) {
 				
@@ -349,7 +338,6 @@ public class Board extends JPanel{
 	}
 	public boolean checkLeft(int i, int j) {
 			
-			Square sq = squares[i][j];
 			String currentColor;
 			
 			
@@ -364,8 +352,8 @@ public class Board extends JPanel{
 				 return false;
 
 			 }
-			 //Checking that the current position is blank, and the position one space belong is not the current color or a blank space
-			 else if(sq.circleColor.equals("") && !squares[i][j-1].circleColor.equals(currentColor) && !squares[i][j-1].circleColor.equals("")){
+
+			 else if(squares[i][j].circleColor.equals("") && !squares[i][j-1].circleColor.equals(currentColor) && !squares[i][j-1].circleColor.equals("")){
 				 
 				 
 				 for(int j2=j-1; j2>=0; j2--) {
@@ -385,7 +373,6 @@ public class Board extends JPanel{
 		}
 	public boolean checkTopLeftDiagonal(int i, int j) {
 
-		Square sq = squares[i][j];
 		String currentColor;
 		
 		if(GameMouseListener.blackTurn) {
@@ -397,8 +384,8 @@ public class Board extends JPanel{
 		 if((i==0 || i==1) || (j==0 || j==1)) {
 			 return false;
 		 }
-		 //Checking that the current position is blank, and the position one space in the direction is not the current color or a blank space
-		 else if(sq.circleColor.equals("") && !squares[i-1][j-1].circleColor.equals(currentColor) && !squares[i-1][j-1].circleColor.equals("")){
+
+		 else if(squares[i][j].circleColor.equals("") && !squares[i-1][j-1].circleColor.equals(currentColor) && !squares[i-1][j-1].circleColor.equals("")){
 			 
 			 int i2 = i-1;
 			 int j2 = j-1;
@@ -421,7 +408,6 @@ public class Board extends JPanel{
 	}
 	public boolean checkTopRightDiagonal(int i, int j) {
 			
-			Square sq = squares[i][j];
 			String currentColor;
 			
 			if(GameMouseListener.blackTurn) {
@@ -433,8 +419,8 @@ public class Board extends JPanel{
 			 if((i==0 || i==1) || (j==6 || j==7)) {
 				 return false;
 			 }
-			 //Checking that the current position is blank, and the position one space in the direction is not the current color or a blank space
-			 else if(sq.circleColor.equals("") && !squares[i-1][j+1].circleColor.equals(currentColor) && !squares[i-1][j+1].circleColor.equals("")){
+
+			 else if(squares[i][j].circleColor.equals("") && !squares[i-1][j+1].circleColor.equals(currentColor) && !squares[i-1][j+1].circleColor.equals("")){
 				 
 				 int i2 = i-1;
 				 int j2 = j+1;
@@ -457,7 +443,6 @@ public class Board extends JPanel{
 	}
 	public boolean checkBottomLeftDiagonal(int i, int j) {
 			
-			Square sq = squares[i][j];
 			String currentColor;
 			
 			if(GameMouseListener.blackTurn) {
@@ -469,8 +454,8 @@ public class Board extends JPanel{
 			 if((i==6 || i==7) || (j==0 || j==1)) {
 				 return false;
 			 }
-			 //Checking that the current position is blank, and the position one space in the direction is not the current color or a blank space
-			 else if(sq.circleColor.equals("") && !squares[i+1][j-1].circleColor.equals(currentColor) && !squares[i+1][j-1].circleColor.equals("")){
+
+			 else if(squares[i][j].circleColor.equals("") && !squares[i+1][j-1].circleColor.equals(currentColor) && !squares[i+1][j-1].circleColor.equals("")){
 				 
 				 int i2 = i+1;
 				 int j2 = j-1;
@@ -493,7 +478,6 @@ public class Board extends JPanel{
 	}
 	public boolean checkBottomRightDiagonal(int i, int j) {
 		
-		Square sq = squares[i][j];
 		String currentColor;
 		
 		if(GameMouseListener.blackTurn) {
@@ -505,8 +489,8 @@ public class Board extends JPanel{
 		 if((i==6 || i==7) || (j==6 || j==7)) {
 			 return false;
 		 }
-		 //Checking that the current position is blank, and the position one space in the direction is not the current color or a blank space
-		 else if(sq.circleColor.equals("") && !squares[i+1][j+1].circleColor.equals(currentColor) && !squares[i+1][j+1].circleColor.equals("")){
+
+		 else if(squares[i][j].circleColor.equals("") && !squares[i+1][j+1].circleColor.equals(currentColor) && !squares[i+1][j+1].circleColor.equals("")){
 			 
 			 int i2 = i+1;
 			 int j2 = j+1;
@@ -547,10 +531,8 @@ public class Board extends JPanel{
 				
 				if(!squares[i2][j].circleColor.equals("")) {
 					if(currentColor.equals("black")) {
-						System.out.println("flippped top!");
 						squares[i2][j].circleColor = "black";
 					}else {
-						System.out.println("flippped top!");
 						squares[i2][j].circleColor = "white";
 					}
 					
@@ -578,11 +560,8 @@ public class Board extends JPanel{
 				
 				if(!squares[i2][j].circleColor.equals("")) {
 					if(currentColor.equals("black")) {
-						System.out.println("flippped bottom!");
 						squares[i2][j].circleColor = "black";
 					}else {
-						System.out.println("fill white");
-						System.out.println("flippped bottom!");
 						squares[i2][j].circleColor = "white";
 					}
 					
@@ -611,11 +590,8 @@ public class Board extends JPanel{
 				
 				if(!squares[i][j2].circleColor.equals("")) {
 					if(currentColor.equals("black")) {
-						System.out.println("flippped right!");
 						squares[i][j2].circleColor = "black";
 					}else {
-						System.out.println("fill white");
-						System.out.println("flippped right!");
 						squares[i][j2].circleColor = "white";
 					}
 					
@@ -647,10 +623,8 @@ public class Board extends JPanel{
 				
 				
 				if(currentColor.equals("black")) {
-					System.out.println("flippped left!");
 					squares[i][j2].circleColor = "black";
 				}else {
-					System.out.println("flippped left!");
 					squares[i][j2].circleColor = "white";
 				}
 					
@@ -682,10 +656,8 @@ public class Board extends JPanel{
 				
 						
 				 if(currentColor.equals("black")) {
-						System.out.println("flippped topLeftDiagonal!");
 						squares[i2][j2].circleColor = "black";
 				 }else{
-					System.out.println("flippped topLeftDiagonal!");
 						squares[i2][j2].circleColor = "white";
 				 }	
 										 
@@ -721,10 +693,8 @@ public class Board extends JPanel{
 				 
 						
 				 if(currentColor.equals("black")) {
-						System.out.println("flippped topLeftDiagonal!");
 						squares[i2][j2].circleColor = "black";
 				 }else{
-					System.out.println("flippped topLeftDiagonal!");
 						squares[i2][j2].circleColor = "white";
 				 }
 					
@@ -761,10 +731,8 @@ public class Board extends JPanel{
 				 
 						
 				 if(currentColor.equals("black")) {
-						System.out.println("flippped topLeftDiagonal!");
 						squares[i2][j2].circleColor = "black";
 				 }else{
-					System.out.println("flippped topLeftDiagonal!");
 						squares[i2][j2].circleColor = "white";
 				 }
 					
@@ -800,10 +768,8 @@ public class Board extends JPanel{
 				 
 						
 				 if(currentColor.equals("black")) {
-						System.out.println("flippped topLeftDiagonal!");
 						squares[i2][j2].circleColor = "black";
 				 }else{
-					System.out.println("flippped topLeftDiagonal!");
 						squares[i2][j2].circleColor = "white";
 				 }
 					
